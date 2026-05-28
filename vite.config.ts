@@ -16,7 +16,6 @@ const config = defineConfig({
       DPoP: { enabled: true, mode: 'auto' },
     }),
     viteReact(),
-    oidcSpa(),
     babel({ presets: [reactCompilerPreset()] }),
   ],
 })
