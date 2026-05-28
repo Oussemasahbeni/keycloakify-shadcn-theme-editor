@@ -6,6 +6,7 @@ import { NotFound } from '#/components/not-found'
 
 import { ThemeProvider } from '#/components/theme-provider'
 import { TooltipProvider } from '#/components/ui/tooltip'
+import { useOidc } from '#/oidc'
 import appCss from '../styles.css?url'
 
 export const Route = createRootRoute({
@@ -20,7 +21,7 @@ export const Route = createRootRoute({
         content: 'width=device-width, initial-scale=1',
       },
       {
-        title: 'TanStack Start Starter',
+        title: 'Keycloak Theme Editor',
       },
     ],
     links: [
@@ -33,6 +34,7 @@ export const Route = createRootRoute({
   shellComponent: RootDocument,
 })
 function RootDocument({ children }: { children: React.ReactNode }) {
+  const { isOidcReady } = useOidc()
   return (
     <html>
       <head>
@@ -40,7 +42,8 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         <ThemeProvider defaultTheme="system" storageKey="theme">
-          <TooltipProvider>{children}</TooltipProvider>
+          <TooltipProvider>{isOidcReady && <>{children}</>}</TooltipProvider>
+          {/*<AutoLogoutWarningOverlay />*/}
         </ThemeProvider>
         <TanStackDevtools
           config={{
